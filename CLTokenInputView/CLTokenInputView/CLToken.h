@@ -16,12 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface CLToken : NSObject
 
+/** The attributed text to display in the token view */
+@property (copy, nonatomic) NSAttributedString *attributedDisplayText;
 /** The text to display in the token view */
 @property (copy, nonatomic) NSString *displayText;
 /** Used for storing anything that would be useful later on */
 @property (strong, nonatomic, nullable) NSObject *context;
 
-
+- (id)initWithAttributedDisplayText:(NSAttributedString *)attributedDisplayText context:(nullable NSObject *)context;
 - (id)initWithDisplayText:(NSString *)displayText context:(nullable NSObject *)context;
 
 @end

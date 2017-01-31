@@ -425,6 +425,21 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
 
 #pragma mark - CLTokenViewDelegate
 
+- (void)tokenViewDidRequestDelete:(CLTokenView *)tokenView replaceWithAttributedText:(NSAttributedString *)attributedReplacementText
+{
+    // First, refocus the text field
+    [self.textField becomeFirstResponder];
+    if (attributedReplacementText.length > 0) {
+        self.textField.attributedText = attributedReplacementText;
+    }
+    // Then remove the view from our data
+    NSInteger index = [self.tokenViews indexOfObject:tokenView];
+    if (index == NSNotFound) {
+        return;
+    }
+    [self removeTokenAtIndex:index];
+}
+
 - (void)tokenViewDidRequestDelete:(CLTokenView *)tokenView replaceWithText:(NSString *)replacementText
 {
     // First, refocus the text field

@@ -92,22 +92,41 @@
 
 - (void)tokenInputView:(CLTokenInputView *)view didAddToken:(CLToken *)token
 {
-    NSString *name = token.displayText;
+    id name;
+    if (token.attributedDisplayText) {
+        name = token.attributedDisplayText;
+    } else {
+        name = token.displayText;
+    }
+    
     [self.selectedNames addObject:name];
 }
 
 - (void)tokenInputView:(CLTokenInputView *)view didRemoveToken:(CLToken *)token
 {
-    NSString *name = token.displayText;
+    
+    id name;
+    if (token.attributedDisplayText) {
+        name = token.attributedDisplayText;
+    } else {
+        name = token.displayText;
+    }
+    
     [self.selectedNames removeObject:name];
 }
 
 - (CLToken *)tokenInputView:(CLTokenInputView *)view tokenForText:(NSString *)text
 {
     if (self.filteredNames.count > 0) {
-        NSString *matchingName = self.filteredNames[0];
-        CLToken *match = [[CLToken alloc] initWithDisplayText:matchingName context:nil];
-        return match;
+        id matchingName = self.filteredNames[0];
+        if ([matchingName isKindOfClass:[NSAttributedString class]]) {
+            CLToken *match = [[CLToken alloc] initWithAttributedDisplayText:matchingName context:nil];
+            return match;
+        } else {
+            CLToken *match = [[CLToken alloc] initWithDisplayText:matchingName context:nil];
+            return match;
+        }
+        
     }
     // TODO: Perhaps if the text is a valid phone number, or email address, create a token
     // to "accept" it.
@@ -158,13 +177,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    NSString *name = self.filteredNames[indexPath.row];
-    CLToken *token = [[CLToken alloc] initWithDisplayText:name context:nil];
+    
+    NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] initWithString:self.filteredNames[indexPath.row] attributes:@{
+                                                                                                                                                 NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+    
+    NSTextAttachment *att = [[NSTextAttachment alloc] init];
+    UIImage *imag = [self imageFromColor:[UIColor orangeColor]];
+    att.image = imag;
+    NSAttributedString *attString = [NSAttributedString attributedStringWithAttachment:att];
+    
+    [attributedName appendAttributedString:attString];
+    
+    CLToken *token = [[CLToken alloc] initWithAttributedDisplayText:attributedName context:nil];
     if (self.tokenInputView.isEditing) {
         [self.tokenInputView addToken:token];
     }
-    else if(self.secondTokenInputView.isEditing){
+    else if (self.secondTokenInputView.isEditing) {
         [self.secondTokenInputView addToken:token];
     }
 }
@@ -192,6 +220,17 @@
                                               cancelButtonTitle:@"Okay"
                                               otherButtonTitles:nil];
     [alertView show];
+}
+
+- (UIImage *)imageFromColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0, 0, 10, 10);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 #pragma mark - Demo Buttons

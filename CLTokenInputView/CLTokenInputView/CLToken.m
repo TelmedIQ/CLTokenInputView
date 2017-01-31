@@ -10,6 +10,15 @@
 
 @implementation CLToken
 
+- (id)initWithAttributedDisplayText:(NSAttributedString *)attributedDisplayText context:(NSObject *)context {
+    self = [super init];
+    if (self) {
+        self.attributedDisplayText = attributedDisplayText;
+        self.context = context;
+    }
+    return self;
+}
+
 - (id)initWithDisplayText:(NSString *)displayText context:(NSObject *)context
 {
     self = [super init];
@@ -30,7 +39,8 @@
     }
 
     CLToken *otherObject = (CLToken *)object;
-    if ([otherObject.displayText isEqualToString:self.displayText] &&
+    if ([otherObject.attributedDisplayText isEqualToAttributedString:self.attributedDisplayText] &&
+        [otherObject.displayText isEqualToString:self.displayText] &&
         [otherObject.context isEqual:self.context]) {
         return YES;
     }
@@ -39,7 +49,13 @@
 
 - (NSUInteger)hash
 {
-    return self.displayText.hash + self.context.hash;
+    if (self.displayText) {
+        return self.displayText.hash + self.context.hash;
+    } else if (self.attributedDisplayText) {
+        return self.attributedDisplayText.hash + self.context.hash;
+    }
+    
+    return 0;
 }
 
 @end

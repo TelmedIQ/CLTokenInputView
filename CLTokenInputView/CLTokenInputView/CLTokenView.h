@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CLTokenViewDelegate <NSObject>
 
 @required
+- (void)tokenViewDidRequestDelete:(CLTokenView *)tokenView replaceWithAttributedText:(nullable NSAttributedString *)attributedReplacementText;
 - (void)tokenViewDidRequestDelete:(CLTokenView *)tokenView replaceWithText:(nullable NSString *)replacementText;
 - (void)tokenViewDidRequestSelection:(CLTokenView *)tokenView;
 
