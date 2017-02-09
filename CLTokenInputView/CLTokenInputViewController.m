@@ -178,7 +178,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] initWithString:self.filteredNames[indexPath.row] attributes:@{
+    NSMutableAttributedString *attributedName = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ ", self.filteredNames[indexPath.row]] attributes:@{
                                                                                                                                                  NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
     
     NSTextAttachment *att = [[NSTextAttachment alloc] init];

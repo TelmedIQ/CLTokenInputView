@@ -15,6 +15,7 @@
     if (self) {
         self.attributedDisplayText = attributedDisplayText;
         self.context = context;
+        self.displayText = [attributedDisplayText string];
     }
     return self;
 }
