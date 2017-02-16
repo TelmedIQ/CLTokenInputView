@@ -260,7 +260,7 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
         // isOnFirstLine will be useful, and this calculation is important.
         // So leaving it set here, and marking the warning to ignore it
 #pragma unused(isOnFirstLine)
-        curX = PADDING_LEFT + TEXT_FIELD_HSPACE;
+        curX = PADDING_LEFT + 2 * TEXT_FIELD_HSPACE;
         curY += STANDARD_ROW_HEIGHT+VSPACE;
         totalHeight += STANDARD_ROW_HEIGHT;
         // Adjust the width

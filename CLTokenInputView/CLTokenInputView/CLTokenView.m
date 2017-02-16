@@ -72,10 +72,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
 
         [self updateLabelAttributedText];
         if (token.attributedDisplayText) {
-            self.selectedAttributedDisplayText = [[NSAttributedString alloc] initWithString:[self.attributedDisplayText string] attributes:@{
-                                                                                                                                             NSForegroundColorAttributeName: [UIColor whiteColor]
-                                                                                                                                             }];
-            self.selectedLabel.attributedText = self.selectedAttributedDisplayText;
+            self.selectedLabel.attributedText = token.attributedDisplayText;
         } else {
             self.selectedLabel.text = token.displayText;
         }
@@ -203,7 +200,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
         }
         
         [attributedLabelString addAttribute:NSFontAttributeName value:self.label.font range:NSMakeRange(0, [[attributedLabelString string] length])];
-        [attributedLabelString addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, [[attributedLabelString string] length])];
+        [attributedLabelString addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0, [[attributedLabelString string] length])];
         
         NSRange tintRange = NSMakeRange(0, [self.displayText length]);
         // Make the name part the system tint color
@@ -221,7 +218,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
         NSMutableAttributedString *attrString =
         [[NSMutableAttributedString alloc] initWithString:labelString
                                                attributes:@{NSFontAttributeName : self.label.font,
-                                                            NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
+                                                            NSForegroundColorAttributeName : [UIColor darkGrayColor]}];
         NSRange tintRange = [labelString rangeOfString:self.displayText];
         // Make the name part the system tint color
         UIColor *tintColor = self.selectedBackgroundView.backgroundColor;
@@ -248,7 +245,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
 
     CGRect labelFrame = CGRectInset(bounds, PADDING_X, PADDING_Y);
     self.selectedLabel.frame = labelFrame;
-    labelFrame.size.width += PADDING_X*2.0;
+    labelFrame.size.width += PADDING_X*4.0;
     self.label.frame = labelFrame;
 }
 
