@@ -103,6 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addToken:(CLToken *)token;
 - (void)removeToken:(CLToken *)token;
+- (void)replaceTokenAtIndex:(NSInteger)index withToken:(CLToken *)token;
 - (nullable CLToken *)tokenizeTextfieldText;
 
 // Editing

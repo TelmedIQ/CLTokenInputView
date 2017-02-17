@@ -161,6 +161,23 @@ static CGFloat const FIELD_MARGIN_X = 4.0; // Note: Same as CLTokenView.PADDING_
     [self repositionViews];
 }
 
+- (void)replaceTokenAtIndex:(NSInteger)index withToken:(CLToken *)token
+{
+    if (index == NSNotFound) {
+        return;
+    }
+    
+    CLTokenView *tempTokenView = [[CLTokenView alloc] initWithToken:token font:self.textField.font];
+    CGSize tempIntrinsicSize = tempTokenView.intrinsicContentSize;
+    
+    CLTokenView *viewToUpdate = self.tokenViews[index];
+    [viewToUpdate updateLabelAttributedText:token];
+    viewToUpdate.frame = CGRectMake(0, 0, tempIntrinsicSize.width, tempIntrinsicSize.height);
+    
+    [self updatePlaceholderTextVisibility];
+    [self layoutSubviews];
+}
+
 - (NSArray *)allTokens
 {
     return [self.tokens copy];

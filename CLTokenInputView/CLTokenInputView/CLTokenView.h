@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated;
 
+- (void)updateLabelAttributedText:(CLToken *)token;
+
 // For iOS 6 compatibility, provide the setter tintColor
 - (void)setTintColor:(nullable UIColor *)tintColor;
 

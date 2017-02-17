@@ -62,20 +62,7 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
         [self addSubview:self.selectedLabel];
         self.selectedLabel.hidden = YES;
 
-        if (token.attributedDisplayText) {
-            self.attributedDisplayText = token.attributedDisplayText;
-        } else {
-            self.displayText = token.displayText;
-        }
-
-        self.hideUnselectedComma = NO;
-
-        [self updateLabelAttributedText];
-        if (token.attributedDisplayText) {
-            self.selectedLabel.attributedText = token.attributedDisplayText;
-        } else {
-            self.selectedLabel.text = token.displayText;
-        }
+        [self updateLabelAttributedText:token];
 
         // Listen for taps
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGestureRecognizer:)];
@@ -182,6 +169,22 @@ static NSString *const UNSELECTED_LABEL_NO_COMMA_FORMAT = @"%@";
 
 
 #pragma mark - Attributed Text
+- (void)updateLabelAttributedText:(CLToken *)token {
+    if (token.attributedDisplayText) {
+        self.attributedDisplayText = token.attributedDisplayText;
+    } else {
+        self.displayText = token.displayText;
+    }
+    
+    self.hideUnselectedComma = NO;
+    
+    [self updateLabelAttributedText];
+    if (token.attributedDisplayText) {
+        self.selectedLabel.attributedText = token.attributedDisplayText;
+    } else {
+        self.selectedLabel.text = token.displayText;
+    }
+}
 
 
 - (void)updateLabelAttributedText
